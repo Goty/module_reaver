@@ -21,7 +21,7 @@ function __autoload($class_name) {
 
 include "../menu.php";
 
-$obj = new reaver("santi ");
+$obj = new reaver();
 
 $obj->checkIface($_GET["service"], $_GET["action"], $io_in_iface_extra);
 
@@ -84,8 +84,6 @@ $obj->checkIface($_GET["service"], $_GET["action"], $io_in_iface_extra);
 
 <?php
 
-$obj = new reaver("santi ");
-print $obj->name;
 
 
 
