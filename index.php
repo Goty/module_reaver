@@ -61,6 +61,13 @@ $obj->checkIface($_GET["service"], $_GET["action"], $io_in_iface_extra);
     $ifaces = $obj->getIfaces();
     ?>
     
+    <?
+    $data= $obj->getWash($_GET["service"], $_GET["action"]);
+    $net= $obj->getNet($data);
+    
+    ?>
+    
+    
     <select class="input" onchange="this.form.submit()" name="io_in_iface_extra" <? if ($iface_mon0 != "") echo "disabled" ?> >
         
         <?
@@ -83,13 +90,30 @@ $obj->checkIface($_GET["service"], $_GET["action"], $io_in_iface_extra);
         }
         
     ?>
-    
-    <input type="hidden" name="iface" value="wifi_extra">
-    </form>
-    <p style="color:black">&nbsp;&nbsp;&nbsp;Wash <b><a href='index.php?service=wash&action=start'style='color:black'>start</a></b>&nbsp;(wait 15s)
     <hr width=400px align=left>
-    <p style="color:black">&nbsp;&nbsp;&nbsp;Reaver
+    <input type="hidden" name="iface" value="wifi_extra">
+    
+    <p style="color:black">&nbsp;&nbsp;&nbsp;Wash <b><a href='index.php?service=wash&action=start'style='color:black'>start</a></b>&nbsp;(wait 15s)
+    <p style="color:black">&nbsp;&nbsp;&nbsp;Options
+    <hr width=400px align=left>
+    <p style="color:black">&nbsp;&nbsp;&nbsp;Reaver 
+    
+    <select class="input" name="net_extra" <? if ($iface_mon0 == "") echo "disabled" ?> >
+        
+        <?
+        for ($i = 0; $i < count($net); $i++) {
+            	if ($net_extra == $net[$i]) $flag = "selected" ; else $flag = "";
+            	echo "<option $flag>$net[$i]</option>";
+            
+        }
+        ?>
+        
+    </select>
+    start attack
+    
     <p style="color:black"> &nbsp;&nbsp;&nbsp;Options
+    
+    </form>
 </div>
     
 
@@ -101,10 +125,24 @@ $obj->checkIface($_GET["service"], $_GET["action"], $io_in_iface_extra);
     <div id="result-1">
         <form id="formLogs" name="formLogs" method="POST" autocomplete="off">
         <br>
-        
-        <?$data= $obj->checkWash($_GET["service"], $_GET["action"]);?>
-        
         <textarea id="output" class="module-content"><?=$data?></textarea>
         <input type="hidden" name="type" value="logs">
     </div>
+    <div id="result-2">
+
+        <?
+        $logs = glob($mod_logs_history.'*.log');
+        print_r($a);
+
+        for ($i = 0; $i < count($logs); $i++) {
+            $filename = str_replace(".log","",str_replace($mod_logs_history,"",$logs[$i]));
+            echo "<a href='?logfile=".str_replace(".log","",str_replace($mod_logs_history,"",$logs[$i]))."&action=delete'><b>x</b></a> ";
+            echo $filename . " | ";
+            echo "<a href='?logfile=".str_replace(".log","",str_replace($mod_logs_history,"",$logs[$i]))."&action=view'><b>view</b></a>";
+            echo "<br>";
+        }
+        ?>
+        
+    </div>
+    
 </div>
