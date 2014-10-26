@@ -1,3 +1,21 @@
+<? 
+/*
+	Copyright (C) 2013-2014  xtr4nge [_AT_] gmail.com
+
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/ 
+?>
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
@@ -16,82 +34,112 @@ $(function() {
 });
 
 </script>
+
 </head>
 <body>
 
-<?php
+<?
 include "_info_.php";
-include "../../functions.php";
+include "../../config/config.php";
 include "../../login_check.php";
+include "../../functions.php";
+
+include "../menu.php"; 
 
 /**
-*load class form other files
-*/
+ *load class form other files
+ */
 function __autoload($class_name) {
-    include $class_name . '.php';
+	include $class_name . '.php';
 }
 
-include "../menu.php";
-
-$obj = new reaver();
-//Start and stop mon interface
-$obj->checkIface($_GET["service"], $_GET["action"], $io_in_iface_extra);
 
 ?>
 
 <br>
+
 <div class="rounded-top" align="left"> &nbsp; <b>Reaver</b> </div>
 <div class="rounded-bottom">
     &nbsp;&nbsp;version <?=$mod_version?><br>
     &nbsp;&nbsp;&nbsp;&nbsp; reaver <font style="color:lime">installed</font>
-</div>
-<br>
 
-<div id="action" class="module">
-        <ul>
-            <li><a href="#action-1">General</a></li>
-        </ul>
-    
-        <br>
-        <form action="" method="post" style="margin:0px;color:black">
-    &nbsp;&nbsp;&nbsp;Monitor 
-    
-    <?
-    $iface_mon0 = exec("/sbin/ifconfig |grep mon0"); 
-    $ifaces = $obj->getIfaces();
-    ?>
-    
-    <select class="input" onchange="this.form.submit()" name="io_in_iface_extra" <? if ($iface_mon0 != "") echo "disabled" ?> >
-        
-        <?
-        for ($i = 0; $i < count($ifaces); $i++) {
-        	if (strpos($ifaces[$i], "mon") === false) {
-            	if ($io_in_iface_extra == $ifaces[$i]) $flag = "selected" ; else $flag = "";
-            	echo "<option $flag>$ifaces[$i]</option>";
-            }
-        }
-        ?>
-        
-    </select> 
-    
-    <?
-   
-        if ($iface_mon0 == "") {
-        	echo "<b><a href='index.php?service=mon0&action=start' style='color: black'> start</a></b> [<font color='red'>mon0</font>]";
-        } else {
-            echo "<b><a href='index.php?service=mon0&action=stop' style='color: black'> stop</a></b>&nbsp; [<font color='lime'>mon0</font>]";
-        }
-        
-    ?>
-    
-    <input type="hidden" name="iface" value="wifi_extra">
-    </form>
-    <p style="color:black">&nbsp;&nbsp;&nbsp;Wash <b><a href='index.php?service=wash&action=start'style='color:black'>start</a></b>&nbsp;(wait 15s)
-    <hr width=400px align=left>
-    <p style="color:black">&nbsp;&nbsp;&nbsp;Reaver
-    <p style="color:black"> &nbsp;&nbsp;&nbsp;Options
 </div>
-    
+
+<br>
+        <?php 
+
+//reaver
+if ($_GET["service"] == "reaver"){
+	if($_GET["action"] == "start"){
+		//START reaver command
+		print "entrando en reaver";
+		print $reaver;
+	}
+}
+
+//wash
+if (isset($_POST['wash'])){
+	// START wash command
+	print "funcionando el start";
+	$wash = new Wash("mon0");
+	print $_POST['time'];
+	$wash-> setTime($_POST['time']);
+	$wash-> washStart();
+	$wash-> setWashResult();
+	
+	$networks = $wash-> generateNetworks();
+
+}
+
+//reaver
+if (isset($_POST['reaver'])){
+	//START reaver command
+	$reaver = new Reaver($networks[$_POST['net']]);
+
+}
+
+?>
+
+<hr>
+
+<form action="index.php" method="post" style="margin:0px" id="wash">
+                           Wash  <input type="submit" value="Start" name="wash"/>
+                           Time <select name="time">
+                           <option value="10">10s</option>
+                           <option value="20">20s</option>
+                           <option value="30">30s</option>
+                           <option value="40">40s</option>
+                           <option value="50">50s</option>
+                           
+                          		</select>
+                        </form>  
+                        
+                        <hr>
+
+<form action="" method="post" style="margin:0px" id="reaver">
+                           Reaver <select class="input" name="net">
+                                <option>-</option>
+                                <?
+                                for ($i = 0; $i < count($networks)-1; $i++) {
+										$essid=$networks[$i]->getEssid();
+                                        echo "<option value=".$i.">$essid</option>";
+                                    }
+                                
+                                ?>
+                            </select> 
+                            <input type="submit" value="Start" name="reaver"/>
+                        </form>
+	
+	
+<p> Options
+<hr>
+<?
+
+
+
+?>
+
+<br>
 
 <div id="result" class="module" >
     <ul>
@@ -101,10 +149,53 @@ $obj->checkIface($_GET["service"], $_GET["action"], $io_in_iface_extra);
     <div id="result-1">
         <form id="formLogs" name="formLogs" method="POST" autocomplete="off">
         <br>
+        <?
+            if ($logfile != "" and $action == "view") {
+                $filename = $mod_logs_history.$logfile.".log";
+            } else {
+                $filename = $mod_logs;
+            }
+
+            /*
+            $fh = fopen($filename, "r"); //or die("Could not open file.");
+            $data = fread($fh, filesize($filename)); // or die("Could not read file.");
+            fclose($fh);
+            */
+            
+            $data = open_file($filename);
+            
+            $data_array = explode("\n", $data);
+            //$data = implode("\n",array_reverse($data_array));
+            $data = implode("\n",$data_array);
+            
+        ?>
         
-        <?$data= $obj->checkWash($_GET["service"], $_GET["action"]);?>
         
-        <textarea id="output" class="module-content"><?=$data?></textarea>
+        
+
+
+        <textarea id="output" class="module-content"><?=$wash->getWashResult();?></textarea>
         <input type="hidden" name="type" value="logs">
+        
+    </div>
+    <div id="result-2">
+
+        <?
+        $logs = glob($mod_logs_history.'*.log');
+        print_r($a);
+
+        for ($i = 0; $i < count($logs); $i++) {
+            $filename = str_replace(".log","",str_replace($mod_logs_history,"",$logs[$i]));
+            echo "<a href='?logfile=".str_replace(".log","",str_replace($mod_logs_history,"",$logs[$i]))."&action=delete'><b>x</b></a> ";
+            echo $filename . " | ";
+            echo "<a href='?logfile=".str_replace(".log","",str_replace($mod_logs_history,"",$logs[$i]))."&action=view'><b>view</b></a>";
+            echo "<br>";
+        }
+        ?>
     </div>
 </div>
+
+
+
+</body>
+</html>
