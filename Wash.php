@@ -2,6 +2,7 @@
 
 
 
+
 class Wash{
 
 	private $mon;
@@ -15,12 +16,14 @@ class Wash{
 	function __construct($mon){
 		$this->mon = $mon;
 		$this->nameOutputFile=gmdate("ymd-H-i-s").".log";
+
 	}
 	
 	function __destructor(){
 		
 	}
 	
+
 	/**
 	 * set the wash outputfile
 	 */
@@ -30,12 +33,14 @@ class Wash{
 	
 	function getWashResult(){
 		return $this->outputFile;
+
 	}
 	
 	/**
 	 * start thw wash command and save the log.
 	 */
 	function washStart(){
+
 		$exec = "timeout ".$this->time." wash -i ".$this->mon." -o".$this->nameOutputFile;
 		exec("/usr/share/FruityWifi/bin/danger \"" . $exec . "\"", $dump);
 		
@@ -43,6 +48,7 @@ class Wash{
 		exec("/usr/share/FruityWifi/bin/danger \"" . $exec . "\"", $dump);
 		
 	}
+
 
 	
 	/**
@@ -55,6 +61,7 @@ class Wash{
 	
 	/**
 	 * Array with all the networks scanned by wash.
+
 	 * TODO Finish the implementation.
 	 */
 	function generateNetworks(){
@@ -70,6 +77,7 @@ class Wash{
 		}
 		
 		return $networks;
+
 		
 		
 	}

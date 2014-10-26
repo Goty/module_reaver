@@ -68,6 +68,7 @@ function __autoload($class_name) {
 <br>
         <?php 
 
+
 //reaver
 if ($_GET["service"] == "reaver"){
 	if($_GET["action"] == "start"){
@@ -141,6 +142,7 @@ if (isset($_POST['reaver'])){
 
 <br>
 
+
 <div id="result" class="module" >
     <ul>
         <li><a href="#result-1">Output</a></li>
@@ -149,6 +151,7 @@ if (isset($_POST['reaver'])){
     <div id="result-1">
         <form id="formLogs" name="formLogs" method="POST" autocomplete="off">
         <br>
+
         <?
             if ($logfile != "" and $action == "view") {
                 $filename = $mod_logs_history.$logfile.".log";
@@ -175,6 +178,7 @@ if (isset($_POST['reaver'])){
 
 
         <textarea id="output" class="module-content"><?=$wash->getWashResult();?></textarea>
+
         <input type="hidden" name="type" value="logs">
         
     </div>
@@ -193,9 +197,11 @@ if (isset($_POST['reaver'])){
         }
         ?>
     </div>
+
 </div>
 
 
 
 </body>
 </html>
+

@@ -16,6 +16,7 @@ class Network{
 	private $wpsLocked;
 	private $essid;
 		
+
 	function __construct($networkArray){
 		
 		$this->network = $this->generateNetwork($networkArray);
@@ -29,6 +30,7 @@ class Network{
 	}
 	
 	function __destruct(){
+
 		
 	}
 	
@@ -39,16 +41,19 @@ class Network{
 	 * @return unknown $network Array with all the information about the network splitted.
 	 */
 	
+
 	private function generateNetwork($networkArray){
 		$output = preg_replace('!\s+!', ' ', $networkArray);
 		$net = explode(" ", $output);
 		return $net;
 			
+
 	}
 	
 	//All getters
 	
 	function getBssid(){
+
 		return $this->bssid;
 	}
 	
@@ -70,6 +75,7 @@ class Network{
 	
 	function getEssid(){
 		return $this->essid;
+
 	}
 
 }

@@ -3,6 +3,7 @@
    *Implement reaver functions
    */
     class reaver {
+    	    private $time;
         
         function __construct() {
             
@@ -30,12 +31,11 @@
         	}
         }
         
-        public function checkWash($service, $action){
+        public function getWash($service, $action){
         	if ($service == "wash") {
         		if ($action == "start") {
-        			echo "hola";
         			$name=gmdate("ymd-H-i-s").".log";
-        			$exec = "timeout 15s wash -i mon0 -o".$name;
+        			$exec = "timeout 7s wash -i mon0 -o".$name;
         			exec("/usr/share/FruityWifi/bin/danger \"" . $exec . "\"", $dump);
         			$exec = "mv ".$name." includes/logs/";
         			exec("/usr/share/FruityWifi/bin/danger \"" . $exec . "\"", $dump);
@@ -52,7 +52,31 @@
         	}
         }
         
-       
+        public function getNet($data){
+        	
+        	$arra = array();
+        	
+        	$data_array=explode("\n", $data);
+        	for ($i = 2; $i < count($data_array); $i++){ 
+        		
+        		$line = $data_array[$i];
+        		$bssid = substr($line,0, 17);
+        		
+        		array_push($arra, $bssid);
+        	
+        		for ($j = 0; $j<strlen($line); $j++){
+        			$char = $line[$j];
+        			if ($char == "o" or $char == "s"){
+        			$essid = substr($line,$j+2);
+        			break;
+        			}
+
+        		}
+        	
+        	}
+        	return $arra;
+        
+        }   
         
     }
    
