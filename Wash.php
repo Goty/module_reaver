@@ -28,7 +28,7 @@ class Wash{
 	 * set the wash outputfile
 	 */
 	function setWashResult(){
-		$this->outputFile = open_file("./includes/logs/".$this->nameOutputFile);
+		$this->outputFile = open_file("./includes/logs/wash/".$this->nameOutputFile);
 	}
 	
 	function getWashResult(){
@@ -44,7 +44,7 @@ class Wash{
 		$exec = "timeout ".$this->time." wash -i ".$this->mon." -o".$this->nameOutputFile;
 		exec("/usr/share/FruityWifi/bin/danger \"" . $exec . "\"", $dump);
 		
-		$exec = "mv ".$this->nameOutputFile." ./includes/logs/";
+		$exec = "mv ".$this->nameOutputFile." ./includes/logs/wash/";
 		exec("/usr/share/FruityWifi/bin/danger \"" . $exec . "\"", $dump);
 		
 	}

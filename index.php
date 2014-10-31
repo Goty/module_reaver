@@ -69,34 +69,32 @@ function __autoload($class_name) {
         <?php 
 
 
-//reaver
-if ($_GET["service"] == "reaver"){
-	if($_GET["action"] == "start"){
-		//START reaver command
-		print "entrando en reaver";
-		print $reaver;
-	}
-}
+
 
 //wash
 if (isset($_POST['wash'])){
 	// START wash command
-	print "funcionando el start";
-	$wash = new Wash("mon0");
-	print $_POST['time'];
+	$wash = new Wash($_POST['iface']);
 	$wash-> setTime($_POST['time']);
 	$wash-> washStart();
 	$wash-> setWashResult();
 	
 	$networks = $wash-> generateNetworks();
+	session_Start();
+	$_SESSION['networks']=$networks;
+	
 
 }
 
 //reaver
 if (isset($_POST['reaver'])){
-	//START reaver command
-	$reaver = new Reaver($networks[$_POST['net']]);
-
+	if(isset($_POST['net'])){
+		if (isset($_SESSION['networks'])){
+		session_start();
+		$reaver = new Reaver($_SESSION['networks'][$_POST['net']], "mon0");
+		$reaver->startAttack();
+		}
+	}
 }
 
 ?>
@@ -111,8 +109,11 @@ if (isset($_POST['reaver'])){
                            <option value="30">30s</option>
                            <option value="40">40s</option>
                            <option value="50">50s</option>
-                           
                           		</select>
+                          		Mon interface<select name="iface">
+                          		<option value="mon0">mon0</option>
+                          		</select>
+                          		<p>Options
                         </form>  
                         
                         <hr>
@@ -125,14 +126,23 @@ if (isset($_POST['reaver'])){
 										$essid=$networks[$i]->getEssid();
                                         echo "<option value=".$i.">$essid</option>";
                                     }
-                                
                                 ?>
-                            </select> 
-                            <input type="submit" value="Start" name="reaver"/>
+                            </select>
+                            <?php 
+                            //check if reaver is running
+							$classname = 'Reaver';
+							if( $classname::checkReaver()>2){
+							print "you have <span style='color:lime'><b>reaver running</b></span>";
+							}else{
+							?>
+                            <input type="submit" value="Start" name="reaver"/><?php }?>
+                            <p> Options<br>
+                            <input type="checkbox" name="" value="" checked>Use db pins
+                            <input type="input" name="" value="">Use your own pin<br>
                         </form>
 	
 	
-<p> Options
+
 <hr>
 <?
 
