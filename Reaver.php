@@ -3,10 +3,9 @@
 class Reaver {
 	
 	private $mon;
-	private $network;
 	private $bssid;
 	private $essid;
-	private $pid;
+	private $outputFile;
 	private $nameOutputFile;
 	
 	
@@ -18,8 +17,17 @@ class Reaver {
 		
 	}
 	
-	function __destructor(){
-		
+	/**
+	 * Save the log file in a var
+	 */
+	function setReaverResult(){
+		sleep(3);
+		$this->outputFile=file_get_contents("./includes/logs/reaver/".$this->nameOutputFile);
+	}
+	
+	function getReaverResult(){
+		return $this->outputFile;
+	
 	}
 	
 	/**
@@ -30,22 +38,25 @@ class Reaver {
 		$exec = "reaver -i ".$this->mon." -b ". $this->bssid." -o ./includes/logs/reaver/".$this->nameOutputFile." -vv > /dev/null 2>&1 &";
 		exec("/usr/share/FruityWifi/bin/danger \"" . $exec . "\"", $dump);
 	}
+	
+	function saveAttack(){
+	
+	}
+	
 	/**
 	 * Stop reaver attack
 	 */
-	function stopAttack(){
-		exec("kill -15".getPid());
-		
-	}
-	
-	function saveAttack(){
-		
-	}
-	
-	function getPid(){
+	static function stopAttack(){
+		$exec = "killall reaver";
+		exec("/usr/share/FruityWifi/bin/danger \"" . $exec . "\"", $dump);
+		sleep(1);
 		
 	}
 
+	/**
+	 * check if is there a reaver attack running
+	 * @return string
+	 */
 	static function checkReaver(){
 		return exec('/bin/ps aux |grep -c reaver');
 	}

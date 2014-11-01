@@ -1,10 +1,6 @@
 <?php
-
-
-
-
 class Wash{
-
+	
 	private $mon;
 	private $networks;
 	private $nameOutputFile;
@@ -16,19 +12,14 @@ class Wash{
 	function __construct($mon){
 		$this->mon = $mon;
 		$this->nameOutputFile=gmdate("ymd-H-i-s").".log";
-
 	}
 	
-	function __destructor(){
-		
-	}
-	
-
 	/**
 	 * set the wash outputfile
+	 * to use this function you need first wasStart
 	 */
 	function setWashResult(){
-		$this->outputFile = open_file("./includes/logs/wash/".$this->nameOutputFile);
+		$this->outputFile = file_get_contents("./includes/logs/wash/".$this->nameOutputFile);
 	}
 	
 	function getWashResult(){
@@ -49,8 +40,6 @@ class Wash{
 		
 	}
 
-
-	
 	/**
 	 * Change de default time for reaver command.
 	 * @param unknown $time

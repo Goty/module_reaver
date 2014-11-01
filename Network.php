@@ -6,7 +6,6 @@
 class Network{
 	
 	//Array with information to generate this Network
-	
 	private $network;
 	
 	private $bssid;
@@ -16,7 +15,6 @@ class Network{
 	private $wpsLocked;
 	private $essid;
 		
-
 	function __construct($networkArray){
 		
 		$this->network = $this->generateNetwork($networkArray);
@@ -29,24 +27,15 @@ class Network{
 		
 	}
 	
-	function __destruct(){
-
-		
-	}
-	
-	
 	/**
 	 * Split all the information about the network.
 	 * @param unknown $networkArray String with the information about the network.
-	 * @return unknown $network Array with all the information about the network splitted.
+	 * @return unknown $net Array with all the information about the network splitted.
 	 */
-	
-
 	private function generateNetwork($networkArray){
 		$output = preg_replace('!\s+!', ' ', $networkArray);
 		$net = explode(" ", $output);
-		return $net;
-			
+		return $net;	
 
 	}
 	
