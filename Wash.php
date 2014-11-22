@@ -31,6 +31,8 @@ class Wash{
 	 * start thw wash command and save the log.
 	 */
 	function washStart(){
+		
+		$this->macchanger();
 
 		$exec = "timeout ".$this->time." wash -i ".$this->mon." -o".$this->nameOutputFile;
 		exec("/usr/share/FruityWifi/bin/danger \"" . $exec . "\"", $dump);
@@ -70,14 +72,9 @@ class Wash{
 	/**
 	 * change the mac for wlan and mon
 	 */
-	function macchanger($wlan){
-		//wlan down
-		$exec = "ifcownfig ".$wlan." down";
+	private function macchanger(){
+		$exec = "./includes/scripts/changemac.sh";
 		exec("/usr/share/FruityWifi/bin/danger \"" . $exec . "\"", $dump);
-		//macchanger
-		$exec = "macchanger -a ".$wlan.
-		exec("/usr/share/FruityWifi/bin/danger \"" . $exec . "\"", $dump);
-		
 		
 		
 	}

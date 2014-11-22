@@ -4,7 +4,7 @@
 #·························#
 
 #Define Interface to use
-IFACE=wlan2
+IFACE=wlan0
 
 #Check if mon0 already exist. If exist, stop it.
 ifconfig mon0 > /dev/null 2>&1
