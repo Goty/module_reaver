@@ -74,7 +74,7 @@ function __autoload($class_name) {
 				if (isset ( $_SESSION ['networks'] )) {
 											
 					session_start ();
-					$reaver = new Reaver ( $_SESSION ['networks'] [$_POST ['net']], $_POST ['iface'] );
+					$reaver = new Reaver ( $_SESSION ['networks'] [$_POST ['net']], $_POST ['iface']);
 					$reaver->startAttack ();
 					$reaver->setReaverResult ();
 				}
@@ -127,9 +127,10 @@ function __autoload($class_name) {
 				<option value="mon0">mon0</option>
 			</select>
 
-			<!-- <p>Options<br> <input type="checkbox" name="" value="" checked>Use db
-			pin <input type="text" name="" value="" maxlength="8">Use your own
-			pin<br> -->
+			 <p>Options<br> <input type="checkbox" name="defaultpin" value="" checked>Try with default pin
+			 				<input type="checkbox" name="dbpin"  value="" checked>Use WPSdb
+			 <p><input type="text" name="" value="" maxlength="8">Use your own
+			pin<br>
 	
 			<?php
 			// check if reaver is running

@@ -8,8 +8,7 @@ class Reaver {
 	private $outputFile;
 	private $nameOutputFile;
 	
-	
-	function __construct($network,$mon){
+	function __construct($network,$mon,$defaultpin){
 		$this->mon=$mon;
 		$this->bssid=$network->getBssid();
 		$this->essid=$network->getEssid();
