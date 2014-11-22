@@ -11,7 +11,7 @@ class Wash{
 	
 	function __construct($mon){
 		$this->mon = $mon;
-		$this->nameOutputFile=gmdate("ymd-H-i-s").".log";
+		$this->nameOutputFile="wash-".gmdate("ymd-H-i-s").".log";
 	}
 	
 	/**
@@ -19,7 +19,7 @@ class Wash{
 	 * to use this function you need first wasStart
 	 */
 	function setWashResult(){
-		$this->outputFile = file_get_contents("./includes/logs/wash/".$this->nameOutputFile);
+		$this->outputFile = file_get_contents("./includes/logs/".$this->nameOutputFile);
 	}
 	
 	function getWashResult(){
@@ -35,7 +35,7 @@ class Wash{
 		$exec = "timeout ".$this->time." wash -i ".$this->mon." -o".$this->nameOutputFile;
 		exec("/usr/share/FruityWifi/bin/danger \"" . $exec . "\"", $dump);
 		
-		$exec = "mv ".$this->nameOutputFile." ./includes/logs/wash/";
+		$exec = "mv ".$this->nameOutputFile." ./includes/logs/";
 		exec("/usr/share/FruityWifi/bin/danger \"" . $exec . "\"", $dump);
 		
 	}
@@ -50,7 +50,6 @@ class Wash{
 	
 	/**
 	 * Array with all the networks scanned by wash.
-
 	 * TODO Finish the implementation.
 	 */
 	function generateNetworks(){

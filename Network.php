@@ -7,7 +7,6 @@ class Network{
 	
 	//Array with information to generate this Network
 	private $network;
-	
 	private $bssid;
 	private $channel;
 	private $rssi;

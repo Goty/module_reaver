@@ -13,7 +13,7 @@ class Reaver {
 		$this->mon=$mon;
 		$this->bssid=$network->getBssid();
 		$this->essid=$network->getEssid();
-		$this->nameOutputFile=gmdate("ymd-H-i-s").".log";
+		$this->nameOutputFile="reaver-".gmdate("ymd-H-i-s").".log";
 		
 	}
 	
@@ -22,7 +22,7 @@ class Reaver {
 	 */
 	function setReaverResult(){
 		sleep(3);
-		$this->outputFile=file_get_contents("./includes/logs/reaver/".$this->nameOutputFile);
+		$this->outputFile=file_get_contents("./includes/logs/".$this->nameOutputFile);
 	}
 	
 	function getReaverResult(){
@@ -35,7 +35,7 @@ class Reaver {
 	 * 
 	 */
 	function startAttack(){	
-		$exec = "reaver -i ".$this->mon." -b ". $this->bssid." -o ./includes/logs/reaver/".$this->nameOutputFile." -vv > /dev/null 2>&1 &";
+		$exec = "reaver -i ".$this->mon." -b ". $this->bssid." -o ./includes/logs/".$this->nameOutputFile." -vv > /dev/null 2>&1 &";
 		exec("/usr/share/FruityWifi/bin/danger \"" . $exec . "\"", $dump);
 	}
 	
@@ -61,6 +61,5 @@ class Reaver {
 		return exec('/bin/ps aux |grep -c reaver');
 	}
 }
-
 
 ?>
