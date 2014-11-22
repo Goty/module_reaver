@@ -35,7 +35,7 @@ class Wash{
 		//TODO change wlan0 for a var
 		$this->macchanger("wlan0");
 
-		$exec = "timeout ".$this->time." wash -i ".$this->mon." -o".$this->nameOutputFile;
+		$exec = "timeout ".$this->time." wash -C -i ".$this->mon." -o".$this->nameOutputFile;
 		exec("/usr/share/FruityWifi/bin/danger \"" . $exec . "\"", $dump);
 		
 		$exec = "mv ".$this->nameOutputFile." ./includes/logs/";
