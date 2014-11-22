@@ -4,7 +4,14 @@
 #·························#
 
 #Define Interface to use
-IFACE=wlan0
+if [ "$1" == "" ]
+  then
+    echo -e "\n Usage:\n"
+    echo -e "  $0 <iface>\n"
+    exit 1
+  else
+    IFACE=$1
+fi
 
 #Check if mon0 already exist. If exist, stop it.
 ifconfig mon0 > /dev/null 2>&1
