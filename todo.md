@@ -5,6 +5,6 @@
 - [ ] reaver - Add option to use your own pin
 
 ## Next
-- [ ] reaver - Use dynamic <select> for monitor interface(now only mon0 available)
+- [ ] reaver - Use dynamic 'select' for monitor interface(now only mon0 available)
 - [ ] reaver & wash - Read logs
 - [ ] reaver & wash - Add all the options for the commands
