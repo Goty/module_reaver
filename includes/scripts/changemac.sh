@@ -5,8 +5,6 @@
 
 #Define Interface to use
 
-IFACE=wlan0
-=======
 if [ "$1" == "" ]
   then
     echo -e "\n Usage:\n"
