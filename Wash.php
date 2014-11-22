@@ -65,7 +65,19 @@ class Wash{
 		}
 		
 		return $networks;
-
+	}
+	
+	/**
+	 * change the mac for wlan and mon
+	 */
+	function macchanger($wlan){
+		//wlan down
+		$exec = "ifcownfig ".$wlan." down";
+		exec("/usr/share/FruityWifi/bin/danger \"" . $exec . "\"", $dump);
+		//macchanger
+		$exec = "macchanger -a ".$wlan.
+		exec("/usr/share/FruityWifi/bin/danger \"" . $exec . "\"", $dump);
+		
 		
 		
 	}
