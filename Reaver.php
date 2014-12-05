@@ -34,8 +34,7 @@ class Reaver {
 	 * 
 	 */
 	function startAttack(){	
-		$exec = "reaver -i ".$this->mon." -b ". $this->bssid." -o ./includes/logs/".$this->nameOutputFile." -vv > /dev/null 2>&1 &";
-		exec("/usr/share/FruityWifi/bin/danger \"" . $exec . "\"", $dump);
+		exec_fruitywifi("reaver -i ".$this->mon." -b ". $this->bssid." -o ./includes/logs/".$this->nameOutputFile." -vv > /dev/null 2>&1 &");
 	}
 	
 	function saveAttack(){
@@ -46,10 +45,8 @@ class Reaver {
 	 * Stop reaver attack
 	 */
 	static function stopAttack(){
-		$exec = "killall reaver";
-		exec("/usr/share/FruityWifi/bin/danger \"" . $exec . "\"", $dump);
+		exec_fruitywifi("killall reaver");
 		sleep(1);
-		
 	}
 
 	/**
@@ -57,7 +54,7 @@ class Reaver {
 	 * @return string
 	 */
 	static function checkReaver(){
-		return exec('/bin/ps aux |grep -c reaver');
+		return exec_fruitywifi('/bin/ps aux |grep -c reaver');
 	}
 }
 
