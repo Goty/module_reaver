@@ -40,7 +40,7 @@ include "../menu.php";
  * load class form other files
  */
 function __autoload($class_name) {
-	include $class_name . '.php';
+	include 'includes/'.$class_name . '.php';
 }
 ?>
 
